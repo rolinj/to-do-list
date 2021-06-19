@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Contact Section -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    
+    <script type=text/javascript>
+        $(function() {
+          $('#process_input').bind('click',  
+            function() { 
+                $.getJSON('/edittask', {
+                  date: $('input[name="date"]').val(),
+                  activity: $('input[name="activity"]').val(),
+                  id: {{ id }}
+            },  
+
+            function(data) {
+              $("#result").text(data.result);
+              $("form")[0].reset();
+            });
+
+            return false;
+          });
+        });
+    </script>
+
+    <section id="contact">
+        <div class="container" style="padding-top: 40px;">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 id="result">Edit Activity #{{ id }} Here</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+                    <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+                    <form name="sentMessage" id="contactForm" novalidate>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Due Date</label>
+                                <input type="date" class="form-control" placeholder="Date" id="date" name="date" required data-validation-required-message="Please enter your desired due date." value="{{ task.date }}">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label>Activity/Task Name</label>
+                                <input type="text" class="form-control" placeholder="Activity/Task Name" id="activity" name="activity" required data-validation-required-message="Please enter activity/task name." value="{{ task.activity }}">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="success"></div>
+                        <div class="row">
+                            <div class="form-group col-xs-12">
+                                <button type="submit" class="btn btn-success btn-lg" id="process_input">Edit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
